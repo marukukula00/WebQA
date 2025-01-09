@@ -2,3 +2,4 @@ haystack-ai
 huggingface_hub
 trafilatura
 transformers[torch,sentencepiece]
+streamlit

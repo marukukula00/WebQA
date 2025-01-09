@@ -1,8 +1,7 @@
-
 import os
 from getpass import getpass
 
-os.environ["HF_API_TOKEN"] = os.getenv("HF_API_TOKEN")
+os.environ["HF_API_TOKEN"] = 
 from haystack.components.generators import HuggingFaceAPIGenerator
 
 generator = HuggingFaceAPIGenerator(
@@ -15,7 +14,6 @@ from haystack.components.preprocessors import DocumentSplitter
 from haystack.components.rankers import TransformersSimilarityRanker
 from haystack.components.builders.prompt_builder import PromptBuilder
 from haystack import Pipeline
-import streamlit as st
 
 fetcher = LinkContentFetcher()
 converter = HTMLToDocument()
@@ -58,17 +56,3 @@ print(result['llm']['replies'][0])
 
 
 
-st.title("Haystack Question Answering")
-
-question = st.text_input("Enter your question:", "What do graphs have to do with Haystack?")
-url = st.text_input("Enter the URL to fetch content from:", "https://haystack.deepset.ai/blog/introducing-haystack-2-beta-and-advent")
-
-if st.button("Get Answer"):
-    with st.spinner("Fetching and processing..."):
-        result = pipeline.run({"prompt_builder": {"question": question},
-                               "ranker": {"query": question},
-                               "fetcher": {"urls": [url]},
-                               "llm": {"generation_kwargs": {"max_new_tokens": 350}}})
-        answer = result['llm']['replies'][0]
-        st.success("Answer fetched successfully!")
-        st.write(answer)
